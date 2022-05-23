@@ -12,7 +12,7 @@ var TypeSchema = new Schema(
 TypeSchema
 .virtual('url')
 .get(function () {
-  return '/catalog/type' + this._id;
+  return '/catalog/types' + this._id;
 });
 
 //export model

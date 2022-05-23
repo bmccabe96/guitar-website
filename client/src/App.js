@@ -5,16 +5,54 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
 
-const [testAPI, setTestAPI] = useState('');
+const [typeList, setTypeList] = useState();
+const [brandList, setBrandList] = useState();
+const [guitarList, setGuitarList] = useState();
+
 
 useEffect(() => {
-  callAPI();
+  getTypeList();
+  getBrandList();
+  getGuitarList();
 }, [])
 
-const callAPI = () => {
-  fetch("http://localhost:9000/testAPI")
-    .then(res => res.text())
-    .then(res => setTestAPI(res));
+const getTypeList = () => {
+  fetch("http://localhost:9000/catalog/types",
+          {
+            headers : { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+          }
+  )
+    .then(res => res.json())
+    .then(res => setTypeList(res));
+}
+
+const getBrandList = () => {
+  fetch("http://localhost:9000/catalog/brands",
+          {
+            headers : { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+          }
+  )
+    .then(res => res.json())
+    .then(res => setBrandList(res));
+}
+
+const getGuitarList = () => {
+  fetch("http://localhost:9000/catalog/guitars",
+          {
+            headers : { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+          }
+  )
+    .then(res => res.json())
+    .then(res => setGuitarList(res));
 }
 
   return (
@@ -23,9 +61,6 @@ const callAPI = () => {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          {testAPI}
         </p>
       </header>
     </div>
