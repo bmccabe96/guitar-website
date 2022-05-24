@@ -7,6 +7,8 @@ exports.guitar_list = function(req, res, next) {
   
   Type.find()
     .sort([['name', 'descending']])
+    .populate('brand')
+    .populate('type')
     .exec(function(err, list_guitars) {
       if(err) { return next(err); }
       //successful, so send JSON

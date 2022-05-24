@@ -1,6 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AllContent from './components/AllContent';
+
 
 
 function App() {
@@ -9,7 +12,9 @@ const [typeList, setTypeList] = useState();
 const [brandList, setBrandList] = useState();
 const [guitarList, setGuitarList] = useState();
 
+let navigate = useNavigate();
 
+//Load list 
 useEffect(() => {
   getTypeList();
   getBrandList();
@@ -17,7 +22,7 @@ useEffect(() => {
 }, [])
 
 const getTypeList = () => {
-  fetch("http://localhost:9000/catalog/types",
+  fetch("/catalog/types",
           {
             headers : { 
               'Content-Type': 'application/json',
@@ -30,7 +35,7 @@ const getTypeList = () => {
 }
 
 const getBrandList = () => {
-  fetch("http://localhost:9000/catalog/brands",
+  fetch("/catalog/brands",
           {
             headers : { 
               'Content-Type': 'application/json',
@@ -43,7 +48,7 @@ const getBrandList = () => {
 }
 
 const getGuitarList = () => {
-  fetch("http://localhost:9000/catalog/guitars",
+  fetch("/catalog/guitars",
           {
             headers : { 
               'Content-Type': 'application/json',
@@ -55,14 +60,26 @@ const getGuitarList = () => {
     .then(res => setGuitarList(res));
 }
 
+const clickedHome = () => {
+  navigate("/");
+}
+
+const clickedBrands = () => {
+  navigate("/brands");
+}
+
+const clickedTypes = () => {
+  navigate("/types");
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
+      <AllContent
+        clickedAll={clickedHome}
+        clickedBrands={clickedBrands}
+        clickedTypes={clickedTypes}
+        navigate={navigate}
+      />
     </div>
   );
 }
