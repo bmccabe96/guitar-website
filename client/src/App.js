@@ -8,69 +8,19 @@ import AllContent from './components/AllContent';
 
 function App() {
 
-const [typeList, setTypeList] = useState();
-const [brandList, setBrandList] = useState();
-const [guitarList, setGuitarList] = useState();
+  let navigate = useNavigate();
 
-let navigate = useNavigate();
+  const clickedHome = () => {
+    navigate("/");
+  }
 
-//Load list 
-useEffect(() => {
-  getTypeList();
-  getBrandList();
-  getGuitarList();
-}, [])
+  const clickedBrands = () => {
+    navigate("/brands");
+  }
 
-const getTypeList = () => {
-  fetch("/catalog/types",
-          {
-            headers : { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-          }
-  )
-    .then(res => res.json())
-    .then(res => setTypeList(res));
-}
-
-const getBrandList = () => {
-  fetch("/catalog/brands",
-          {
-            headers : { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-          }
-  )
-    .then(res => res.json())
-    .then(res => setBrandList(res));
-}
-
-const getGuitarList = () => {
-  fetch("/catalog/guitars",
-          {
-            headers : { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-          }
-  )
-    .then(res => res.json())
-    .then(res => setGuitarList(res));
-}
-
-const clickedHome = () => {
-  navigate("/");
-}
-
-const clickedBrands = () => {
-  navigate("/brands");
-}
-
-const clickedTypes = () => {
-  navigate("/types");
-}
+  const clickedTypes = () => {
+    navigate("/types");
+  }
 
   return (
     <div className="App">
