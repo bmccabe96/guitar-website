@@ -26,14 +26,17 @@ const Home = () => {
   
   if (guitarList) {
     return (
-      <GuitarListContainer>
-        {guitarList.map( guitar => {
-          return <GuitarItem
-            guitar={guitar}
-            key={guitar._id}
-          />
-        })}
-      </GuitarListContainer>
+      <div className="home">
+        <MyButton>Add Guitar</MyButton>
+        <GuitarListContainer>
+          {guitarList.map( guitar => {
+            return <GuitarItem
+              guitar={guitar}
+              key={guitar._id}
+            />
+          })}
+        </GuitarListContainer>
+      </div>
     )
   }
   else {
@@ -51,6 +54,20 @@ const GuitarListContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   overflow: auto;
   gap: 25px;
+`
+
+const MyButton = styled.button`
+  color: black;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  margin-top: 25px;
+
+  &:hover {
+    box-shadow: 0 5px 15px rgb(0,0,0,0.15);
+  }
 `
 
 export default Home;
