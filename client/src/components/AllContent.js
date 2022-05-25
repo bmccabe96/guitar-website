@@ -90,6 +90,8 @@ const Navbar = {
 
     background-color: white;
 
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 8px;
+
     width: 100%;
     max-height: 7rem;
 
@@ -117,6 +119,7 @@ const Navbar = {
 
       flex-direction: column;
 
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 8px;
       background-color: white;
       padding: 1rem 2rem;
 
@@ -155,6 +158,7 @@ const HamburgerButton = {
     outline: none;
 
     cursor: pointer;
+    
 
     &:after {
       content: "";
