@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import GuitarItem from "./GuitarItem";
 
-const Home = () => {
+const Home = (props) => {
 
   const [guitarList, setGuitarList] = useState(null);
+  const navigate = props.navigate;
 
   //Load list 
   useEffect(() => {
@@ -23,11 +24,15 @@ const Home = () => {
       .then(res => res.json())
       .then(res => setGuitarList(res));
   }
+
+  const navToAddGuitar = () => {
+    navigate('/create');
+  }
   
   if (guitarList) {
     return (
       <div className="home">
-        <MyButton>Add Guitar</MyButton>
+        <MyButton onClick={navToAddGuitar}>Add Guitar</MyButton>
         <GuitarListContainer>
           {guitarList.map( guitar => {
             return <GuitarItem
@@ -64,6 +69,8 @@ const MyButton = styled.button`
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   margin-top: 25px;
+  width: 12rem;
+  align-self: center;
 
   &:hover {
     box-shadow: 0 5px 15px rgb(0,0,0,0.15);

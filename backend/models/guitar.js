@@ -17,7 +17,7 @@ var GuitarSchema = new Schema(
 GuitarSchema
 .virtual('url')
 .get(function () {
-  return '/catalog/guitar' + this._id;
+  return '/guitar/' + this._id;
 });
 
 

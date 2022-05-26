@@ -1,0 +1,13 @@
+
+
+.home {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group * {
+  padding: 5px 0;
+}
+form p{
+  font-weight: bold;
+}

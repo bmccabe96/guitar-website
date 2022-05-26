@@ -1,8 +1,8 @@
 import logo from './logo.svg';
-import './App.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AllContent from './components/AllContent';
+import "./styles/App.css";
 
 
 

@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Brands from './Brands';
 import Home from './Home';
 import Types from "./Types";
+import AddGuitar from './AddGuitar';
 
 
 function AllContent(props) {
@@ -45,24 +46,30 @@ function AllContent(props) {
       </Navbar.Wrapper>
       <Routes>
         <Route
-            path="/"
-            element={<Home 
-              navigate={navigate}
-              />}
-          />
-          <Route
-            path="/brands"
-            element={<Brands 
-              navigate={navigate}
-              />}
-          />
-          <Route
-            path="/types"
-            element={<Types 
-              navigate={navigate}
-              />}
-          />
-        </Routes>
+          path="/"
+          element={<Home 
+            navigate={navigate}
+            />}
+        />
+        <Route
+          path="/create"
+          element={<AddGuitar 
+            navigate={navigate}
+            />}
+        />
+        <Route
+          path="/brands"
+          element={<Brands 
+            navigate={navigate}
+            />}
+        />
+        <Route
+          path="/types"
+          element={<Types 
+            navigate={navigate}
+            />}
+        />
+      </Routes>
     </Styles.Wrapper>
   );
 }

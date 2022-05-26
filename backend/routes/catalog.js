@@ -12,6 +12,12 @@ var type_controller = require('../controllers/typeController');
 //Get request for all types
 router.get('/guitars', guitar_controller.guitar_list);
 
+//Create guitar GET request
+router.get('/guitar/create', guitar_controller.guitar_create_get);
+
+//Create guitar POST request
+router.post('/guitar/create', guitar_controller.guitar_create_post);
+
 /// TYPE ROUTES ///
 
 //Get request for all types
