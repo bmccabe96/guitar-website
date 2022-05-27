@@ -14,6 +14,9 @@ function AllContent(props) {
 
   const { clickedAll, clickedBrands, clickedTypes, navigate } = props; 
 
+  const dummyImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Jx3nFfYJbtte3rifrRM2fN8zbrJvZUtYug&usqp=CAU";
+
+
 
   useEffect(() => {
     /* Close the drawer when the user clicks outside of it */
@@ -42,8 +45,8 @@ function AllContent(props) {
 
         <Navbar.Items ref={drawerRef} openDrawer={openDrawer}>
           <Navbar.Item onClick={clickedAll}>All</Navbar.Item>
-          <Navbar.Item onClick={clickedBrands}>By Brand</Navbar.Item>
-          <Navbar.Item onClick={clickedTypes}>By Type</Navbar.Item>
+          <Navbar.Item onClick={clickedBrands}>Brands</Navbar.Item>
+          <Navbar.Item onClick={clickedTypes}>Types</Navbar.Item>
         </Navbar.Items>
       </Navbar.Wrapper>
       <Routes>
@@ -51,12 +54,14 @@ function AllContent(props) {
           path="/"
           element={<Home 
             navigate={navigate}
+            dummyImage={dummyImage}
             />}
         />
         <Route
           path="/guitar/:id"
           element={<GuitarDetail 
             navigate={navigate}
+            dummyImage={dummyImage}
             />}
         />
         <Route

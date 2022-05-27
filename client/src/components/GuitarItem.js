@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { currencyFormatter } from "../utils";
 
 const GuitarItem = (props) => {
 
@@ -8,11 +9,6 @@ const GuitarItem = (props) => {
   const navigate = props.navigate;
 
   const [imgError, setImgError] = React.useState(false);
-
-  const currencyFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   const goToGuitarDetail = () => {
     navigate('/guitar/' + guitar._id)

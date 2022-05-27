@@ -6,8 +6,7 @@ const Home = (props) => {
 
   const [guitarList, setGuitarList] = useState(null);
   const navigate = props.navigate;
-  const dummyImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Jx3nFfYJbtte3rifrRM2fN8zbrJvZUtYug&usqp=CAU";
-
+  const dummyImage = props.dummyImage;
 
   //Load list 
   useEffect(() => {
