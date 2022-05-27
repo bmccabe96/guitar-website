@@ -72,7 +72,7 @@ const AddGuitar = (props) => {
       name: inputs.name,
       description: inputs.description,
       brand: inputs.brand,
-      type: typeInputs.map(item => item.checked ? item.name : null).filter(item => item),
+      type: typeInputs.map(item => item.checked ? item._id : null).filter(item => item),
       price: parseFloat(inputs.price),
       image: inputs.image,
     };
@@ -107,7 +107,7 @@ const AddGuitar = (props) => {
               <select id='brand' type='select' name='brand' placeholder="Select brand" required={true} value={inputs.brand} onChange={handleBrandInputChange}>
                 {brandsAndTypes.brands.map(brand => {
                   return (
-                    <option key={brand._id} value={brand.name}>{brand.name}</option>
+                    <option key={brand._id} value={brand._id}>{brand.name}</option>
                   )
                 })}
               </select>

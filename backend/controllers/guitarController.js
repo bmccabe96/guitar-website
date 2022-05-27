@@ -48,8 +48,10 @@ exports.guitar_create_post = [
         req.body.type = new Array(req.body.type);
       }
     }
+    console.log(1);
     next();
   },
+  
 
   //validate and sanitize
   body('name', 'name must not be empty').trim().isLength({ min: 1 }).escape(),
@@ -57,14 +59,14 @@ exports.guitar_create_post = [
   body('brand', 'brand must not be empty').trim().isLength({ min: 1 }).escape(),
   body('type.*').escape(),
   body('price', 'price must not be empty').trim().isLength({ min: 1 }).escape(),
-  body('image', 'image must not be empty').trim().isLength({ min: 1 }).escape(),
 
   //process request
   (req, res, next) => {
-
+    console.log(2)
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
+    console.log(req.body)
     //create new guitar object
     var guitar = new Guitar({
       name: req.body.name,
@@ -74,31 +76,47 @@ exports.guitar_create_post = [
       price: req.body.price,
       image: req.body.image,
     });
+    console.log(3)
 
-    if (!errors.isEmpty()) {
-      console.log(errors);
-      // There are errors. Render form again with sanitized values/error messages.
-      async.parallel({
-        brands: function(callback) {
-          Brand.find(callback);
-        },
-        types: function(callback) {
-          Type.find(callback);
-        }
-      }, function(err, results) {
-        if(err) { return next(err); }
-        res.json(results);
-      });
-      return;
-    }
-    else {
-      //data is okay, save
-      guitar.save(function(err) {
-        if(err) { return next(err); }
-        //successful, send new url to redirect to
-        res.json(guitar.url);
-      });
-    }
+    guitar.save(function(err) {
+      console.log(6,err)
+      if(err) { return next(err); }
+      console.log(7)
+      //successful, send new url to redirect to
+      res.json(guitar.url);
+      console.log(8)
+    });
   }
+    // if (!errors.isEmpty()) {
+    //   console.log(errors);
+    //   // There are errors. Render form again with sanitized values/error messages.
+    //   async.parallel({
+    //     brands: function(callback) {
+    //       Brand.find(callback);
+    //     },
+    //     types: function(callback) {
+    //       Type.find(callback);
+    //     }
+    //   }, function(err, results) {
+    //     if(err) { return next(err); }
+    //     res.json(results);
+    //   });
+    //   console.log(4)
+    //   return;
+    // }
+    // else {
+    //   console.log(5)
+    //   //data is okay, save
+    //   guitar.save(function(err) {
+    //     console.log(6,err)
+    //     if(err) { return next(err); }
+    //     console.log(7)
+    //     //successful, send new url to redirect to
+    //     res.json(guitar.url);
+    //     console.log(8)
+    //   });
+    // }
+    
+  
 ];
 

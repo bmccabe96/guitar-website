@@ -9,7 +9,7 @@ var GuitarSchema = new Schema(
     brand: {type: Schema.Types.ObjectId, ref: 'Brand'},
     type: [{type: Schema.Types.ObjectId, ref: 'Type'}],
     price: {type: Number, min: 0},
-    image: {type: String, required: true},
+    image: {type: String},
   }
 );
 
