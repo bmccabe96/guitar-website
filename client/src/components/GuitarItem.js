@@ -5,6 +5,7 @@ const GuitarItem = (props) => {
 
   const guitar = props.guitar;
   const dummyImage = props.dummyImage;
+  const navigate = props.navigate;
 
   const [imgError, setImgError] = React.useState(false);
 
@@ -13,9 +14,13 @@ const GuitarItem = (props) => {
     currency: 'USD',
   });
 
+  const goToGuitarDetail = () => {
+    navigate('/guitar/' + guitar._id)
+  }
+
   return (
     <Card>
-      <h2>{guitar.name}</h2>
+      <h2 style={{cursor: 'pointer', textDecoration: 'underline'}} onClick={goToGuitarDetail}>{guitar.name}</h2>
       <p>{currencyFormatter.format(guitar.price)}</p>
       <p>{guitar.brand.name}</p>
       <ImgContainer>
@@ -27,6 +32,13 @@ const GuitarItem = (props) => {
           <img style={myImgStyle} alt={`dummy guitar`} src={dummyImage}/>
         }
       </ImgContainer>
+      {
+        imgError
+        ?
+        <em>Image failed, here's a cartoon</em>
+        :
+        null
+      }
     </Card>
   )
 
@@ -38,7 +50,6 @@ const Card = styled.div`
   justify-items: center;
   gap: 1rem;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
-  cursor: pointer;
   padding: 10px 0;
   background-color: white;
   border-radius: 1rem;

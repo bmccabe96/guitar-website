@@ -18,6 +18,24 @@ exports.guitar_list = function(req, res, next) {
     });
 };
 
+//Display a detail page for a specific guitar
+exports.guitar_detail = function(req, res, next) {
+
+  Guitar.findById(req.params.id)
+  .populate('brand')
+  .populate('type')
+  .exec(function(err, theguitar) {
+    if(err) { return next(err); }
+    if(theguitar == null) {
+      var err = new Error("Guitar cannot be empty");
+      err.status=404;
+      return next(err);
+    }
+    //successful, so return response
+    res.json(theguitar);
+  })
+}
+
 //Handle guitar create GET
 exports.guitar_create_get = function(req, res, next) {
 
@@ -51,8 +69,6 @@ exports.guitar_create_post = [
     console.log(1);
     next();
   },
-  
-
   //validate and sanitize
   body('name', 'name must not be empty').trim().isLength({ min: 1 }).escape(),
   body('description', 'description must not be empty').trim().isLength({ min: 1 }).escape(),
@@ -87,36 +103,5 @@ exports.guitar_create_post = [
       console.log(8)
     });
   }
-    // if (!errors.isEmpty()) {
-    //   console.log(errors);
-    //   // There are errors. Render form again with sanitized values/error messages.
-    //   async.parallel({
-    //     brands: function(callback) {
-    //       Brand.find(callback);
-    //     },
-    //     types: function(callback) {
-    //       Type.find(callback);
-    //     }
-    //   }, function(err, results) {
-    //     if(err) { return next(err); }
-    //     res.json(results);
-    //   });
-    //   console.log(4)
-    //   return;
-    // }
-    // else {
-    //   console.log(5)
-    //   //data is okay, save
-    //   guitar.save(function(err) {
-    //     console.log(6,err)
-    //     if(err) { return next(err); }
-    //     console.log(7)
-    //     //successful, send new url to redirect to
-    //     res.json(guitar.url);
-    //     console.log(8)
-    //   });
-    // }
-    
-  
 ];
 

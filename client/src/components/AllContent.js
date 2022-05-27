@@ -5,6 +5,7 @@ import Brands from './Brands';
 import Home from './Home';
 import Types from "./Types";
 import AddGuitar from './AddGuitar';
+import GuitarDetail from './GuitarDetail';
 
 
 function AllContent(props) {
@@ -49,6 +50,12 @@ function AllContent(props) {
         <Route
           path="/"
           element={<Home 
+            navigate={navigate}
+            />}
+        />
+        <Route
+          path="/guitar/:id"
+          element={<GuitarDetail 
             navigate={navigate}
             />}
         />

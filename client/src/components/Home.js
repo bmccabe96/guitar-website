@@ -41,6 +41,7 @@ const Home = (props) => {
               guitar={guitar}
               key={guitar._id}
               dummyImage={dummyImage}
+              navigate={navigate}
             />
           })}
         </GuitarListContainer>
