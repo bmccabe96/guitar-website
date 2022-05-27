@@ -4,6 +4,9 @@ import styled from "styled-components";
 const GuitarItem = (props) => {
 
   const guitar = props.guitar;
+  const dummyImage = props.dummyImage;
+
+  const [imgError, setImgError] = React.useState(false);
 
   const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -16,7 +19,13 @@ const GuitarItem = (props) => {
       <p>{currencyFormatter.format(guitar.price)}</p>
       <p>{guitar.brand.name}</p>
       <ImgContainer>
-        <img style={myImgStyle} alt={`${guitar.name} item`} src={guitar.image} />
+        {
+          !imgError
+          ? 
+          <img style={myImgStyle} alt={`${guitar.name} item`} src={guitar.image} onError={() => setImgError(true)}/>
+          :
+          <img style={myImgStyle} alt={`dummy guitar`} src={dummyImage}/>
+        }
       </ImgContainer>
     </Card>
   )

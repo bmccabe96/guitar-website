@@ -6,6 +6,8 @@ const Home = (props) => {
 
   const [guitarList, setGuitarList] = useState(null);
   const navigate = props.navigate;
+  const dummyImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Jx3nFfYJbtte3rifrRM2fN8zbrJvZUtYug&usqp=CAU";
+
 
   //Load list 
   useEffect(() => {
@@ -38,6 +40,7 @@ const Home = (props) => {
             return <GuitarItem
               guitar={guitar}
               key={guitar._id}
+              dummyImage={dummyImage}
             />
           })}
         </GuitarListContainer>
@@ -59,6 +62,7 @@ const GuitarListContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   overflow: auto;
   gap: 25px;
+  margin-bottom: 60px;
 `
 
 const MyButton = styled.button`

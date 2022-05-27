@@ -13,6 +13,7 @@ function AllContent(props) {
 
   const { clickedAll, clickedBrands, clickedTypes, navigate } = props; 
 
+
   useEffect(() => {
     /* Close the drawer when the user clicks outside of it */
     const closeDrawer = event => {
@@ -79,7 +80,7 @@ const Styles = {
     display: flex;
     flex-direction: column;
     background-color: #eeeeee;
-    height: 100vh;
+    min-height: 100vh;
   `
 };
 

@@ -16,7 +16,7 @@ const AddGuitar = (props) => {
     image: '',
   });
   const [typeInputs, setTypeInputs] = useState('');
-
+  const [formErrors, setFormErrors] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -64,10 +64,11 @@ const AddGuitar = (props) => {
     setTypeInputs(newTypeInputs);
   }
 
-  //NOTE
-  //NEED TO UPDATE THIS TO WORK WITH REAL POST DATA
+  //HANDLE SUBMIT
+  //PROVIDES VALIDATION VIA STATE
   async function handleSubmit(e) {
     e.preventDefault();
+    setFormErrors([]);
     const guitar = {
       name: inputs.name,
       description: inputs.description,
@@ -76,15 +77,27 @@ const AddGuitar = (props) => {
       price: parseFloat(inputs.price),
       image: inputs.image,
     };
-    console.log(guitar);
-    await fetch('/catalog/guitar/create', {
-      method: 'POST',
-      headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
-      body: JSON.stringify(guitar),
-    })
-      .then(res => console.log(res))
-      // .then(res => res.json())
-      //.then(res => console.log(res))
+
+    let newErrors = [];
+    for (let key in guitar) {
+      if(!guitar[key] && key !== 'image') {
+        newErrors.push(`Must input valid ${key}`);
+      }
+    }
+    setFormErrors(newErrors);
+    console.log(newErrors);
+    if (newErrors.length === 0) {
+      await fetch('/catalog/guitar/create', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
+        body: JSON.stringify(guitar),
+      })
+        //.then(res => console.log(res))
+        .then(res => navigate('/'))
+    }
+    else {
+      return;
+    }   
   }
 
   if (brandsAndTypes) {
@@ -96,15 +109,16 @@ const AddGuitar = (props) => {
           <form method='POST' action='' style={formStyle} onSubmit={handleSubmit}>
             <div className="form-group form-text">
               <p>Enter guitar name:</p>
-              <input type='text' required={true} id='name' name='name' value={inputs.name} onChange={handleInputChange}/>
+              <input type='text'  id='name' name='name' value={inputs.name} onChange={handleInputChange}/>
             </div>
             <div className="form-group form-textbox">
               <p>Describe the guitar:</p>
-              <textarea required={true} id='description' name='description' value={inputs.description} onChange={handleInputChange} />
+              <textarea id='description' name='description' value={inputs.description} onChange={handleInputChange} />
             </div>
             <div className="form-group select">
               <p>Select brand:</p>
-              <select id='brand' type='select' name='brand' placeholder="Select brand" required={true} value={inputs.brand} onChange={handleBrandInputChange}>
+              <select id='brand' type='select' name='brand' placeholder="Select brand" defaultValue={'Select brand'} onChange={handleBrandInputChange}>
+                <option key="non-option" value="Select brand" disabled>Select brand</option>
                 {brandsAndTypes.brands.map(brand => {
                   return (
                     <option key={brand._id} value={brand._id}>{brand.name}</option>
@@ -125,13 +139,24 @@ const AddGuitar = (props) => {
             </div>
             <div className="form-group form-num">
               <p>How much does it cost?</p>
-              <input type='number' required={true} id='price' name='price' min='0' value={inputs.price} onChange={handleInputChange}/>
+              <input type='number' id='price' name='price' min='0' value={inputs.price} onChange={handleInputChange}/>
             </div>
             <div className="form-group form-text">
               <p>Enter a link the image:</p>
               <input type='text' id='image' name='image' value={inputs.image} onChange={handleInputChange}/>
             </div>
             <button type='submit'>Submit</button>
+            <div>
+              {
+                formErrors
+                ?
+                formErrors.map((error, index) => {
+                  return <ErrorText key={index}>{error}</ErrorText>
+                })
+                :
+                null
+              }
+            </div>
           </form>
         </FormContainer>
       )
@@ -165,6 +190,14 @@ const FormContainer = styled.div`
   border-radius: 1rem;
   width: 75vw;
   margin-top: 25px;
+  margin-bottom: 85px;
+`
+
+const ErrorText = styled.p`
+  color: red;
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin: 0;
 `
 
 export default AddGuitar;
