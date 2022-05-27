@@ -40,12 +40,12 @@ exports.guitar_create_get = function(req, res, next) {
 exports.guitar_create_post = [
   //convert types to an array
   (req, res, next) => {
-    if(!(req.body.types instanceof Array)) {
-      if(typeof req.body.types === 'undefined'){
-        req.body.types = []
+    if(!(req.body.type instanceof Array)) {
+      if(typeof req.body.type === 'undefined'){
+        req.body.type = []
       }
       else {
-        req.body.types = new Array(req.body.types);
+        req.body.type = new Array(req.body.type);
       }
     }
     next();
@@ -55,7 +55,7 @@ exports.guitar_create_post = [
   body('name', 'name must not be empty').trim().isLength({ min: 1 }).escape(),
   body('description', 'description must not be empty').trim().isLength({ min: 1 }).escape(),
   body('brand', 'brand must not be empty').trim().isLength({ min: 1 }).escape(),
-  body('types.*').escape(),
+  body('type.*').escape(),
   body('price', 'price must not be empty').trim().isLength({ min: 1 }).escape(),
   body('image', 'image must not be empty').trim().isLength({ min: 1 }).escape(),
 
@@ -76,6 +76,7 @@ exports.guitar_create_post = [
     });
 
     if (!errors.isEmpty()) {
+      console.log(errors);
       // There are errors. Render form again with sanitized values/error messages.
       async.parallel({
         brands: function(callback) {
@@ -100,3 +101,4 @@ exports.guitar_create_post = [
     }
   }
 ];
+
