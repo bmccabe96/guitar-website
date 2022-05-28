@@ -49,7 +49,7 @@ const Home = (props) => {
   }
   else {
     return (
-      <h1>LOADING...</h1>
+      <h1 style={{marginTop: '20px', textAlign: 'center'}}>...</h1>
     )
   }
   

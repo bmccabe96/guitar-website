@@ -6,6 +6,7 @@ import Home from './Home';
 import Types from "./Types";
 import AddGuitar from './AddGuitar';
 import GuitarDetail from './GuitarDetail';
+import GuitarDelete from "./GuitarDelete";
 
 
 function AllContent(props) {
@@ -59,7 +60,14 @@ function AllContent(props) {
         />
         <Route
           path="/guitar/:id"
-          element={<GuitarDetail 
+          element={<GuitarDetail
+            navigate={navigate}
+            dummyImage={dummyImage}
+            />}
+        />
+        <Route
+          path="/guitar/:id/delete"
+          element={<GuitarDelete
             navigate={navigate}
             dummyImage={dummyImage}
             />}

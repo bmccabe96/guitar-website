@@ -171,7 +171,7 @@ const AddGuitar = (props) => {
     }
     else {
       return (
-        <h1>Loading</h1>
+        <h1 style={{marginTop: '20px', textAlign: 'center'}}>...</h1>
       )
     }
     

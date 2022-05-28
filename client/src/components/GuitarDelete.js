@@ -2,20 +2,19 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { currencyFormatter } from "../utils";
 
-
-const GuitarDetail = (props) => {
+const GuitarDelete = (props) => {
 
   const dummyImage = props.dummyImage;
   const navigate = props.navigate;
 
+
   const [guitar, setGuitar] = useState(null);
   const [imgError, setImgError] = React.useState(false);
 
-
   useEffect(() => {
-    const id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    const id = window.location.href.split('/').reverse()[1];
     const getGuitar = () => {
-      fetch(`/catalog/guitar/${id}`,
+      fetch(`/catalog/guitar/${id}/delete`,
               {
                 headers : { 
                   'Content-Type': 'application/json',
@@ -29,14 +28,23 @@ const GuitarDetail = (props) => {
     getGuitar();
   }, []);
 
-  const returnHome = () => {
-    navigate('/');
+  const submitDelete = () => {
+    fetch(`/catalog/guitar/${guitar._id}/delete`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
+      body: JSON.stringify(guitar),
+    })
+      .then(navigate('/'))
+  }
+
+  const goBackToGuitar = () => {
+    navigate(`/guitar/${guitar._id}`);
   }
 
   if (guitar) {
     return (
       <Container>
-        <svg onClick={returnHome} style={{width: '24px', height: '24px', justifySelf: 'start', cursor: 'pointer'}} viewBox="0 0 24 24">
+        <svg onClick={goBackToGuitar} style={{width: '24px', height: '24px', justifySelf: 'start', cursor: 'pointer'}} viewBox="0 0 24 24">
           <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
         </svg>
         <ImgContainer>
@@ -56,20 +64,8 @@ const GuitarDetail = (props) => {
         null
         }
         <h1>{guitar.name}</h1>
-        <h2>{guitar.brand.name}</h2>
-        <p>{guitar.description}</p>
-        <BottomRow>
-          <BottomLeft>
-            {
-              guitar.type.map(type => {
-                return <h4 key={type._id}>{type.name}</h4>
-              })
-            }
-          </BottomLeft>
-          <h3>{currencyFormatter.format(guitar.price)}</h3>
-        </BottomRow>
-        <MyButton >Update</MyButton>
-        <MyButton onClick={() => navigate(`/guitar/${guitar._id}/delete`)} style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
+        <em style={{fontWeight: 'bold'}}>Are you sure you want to delete this?</em>
+        <MyButton onClick={submitDelete} style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
       </Container>
     )
   }
@@ -78,6 +74,7 @@ const GuitarDetail = (props) => {
       <h1 style={{marginTop: '20px', textAlign: 'center'}}>...</h1>
     )
   }
+
 }
 
 const Container = styled.div`
@@ -92,18 +89,6 @@ const Container = styled.div`
   margin: 25px 25px 85px 25px;
   text-align: center;
   padding: 25px;
-`
-
-const BottomRow = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-`
-
-const BottomLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
 `
 
 const MyButton = styled.button`
@@ -122,7 +107,6 @@ const MyButton = styled.button`
   }
 `
 
-
 const ImgContainer = styled.div`
   width: 225px;
   height: auto;
@@ -133,4 +117,4 @@ const myImgStyle = {
   height: "auto"
 }
 
-export default GuitarDetail;
+export default GuitarDelete;

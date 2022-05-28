@@ -110,6 +110,8 @@ exports.guitar_create_post = [
 exports.guitar_delete_get = function(req, res, next) {
 
   Guitar.findById(req.params.id)
+  .populate('brand')
+  .populate('type')
   .exec(function (err, theguitar) {
     if(err) { return next(err); }
     if(theguitar == null) {
@@ -122,4 +124,11 @@ exports.guitar_delete_get = function(req, res, next) {
 
 
 //Handle guitar Delete POST
+exports.guitar_delete_post = function(req, res, next) {
 
+  Guitar.findByIdAndRemove(req.body._id, function deleteGuitar(err) {
+    if(err) { return next(err); }
+    //success go to guitar list
+    res.send('/');
+  });
+}
