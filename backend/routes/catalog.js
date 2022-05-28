@@ -18,8 +18,16 @@ router.get('/guitar/create', guitar_controller.guitar_create_get);
 //Create guitar POST request
 router.post('/guitar/create', guitar_controller.guitar_create_post);
 
+//Delete guitar GET
+router.get('/guitar/:id/delete', guitar_controller.guitar_delete_get);
+
+//Delete guitar POST
+//router.post('/guitar/:id/delete', guitar_controller.guitar_delete_post);
+
 //Get guitar detail
 router.get('/guitar/:id', guitar_controller.guitar_detail);
+
+
 
 /// TYPE ROUTES ///
 

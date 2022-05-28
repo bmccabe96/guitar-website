@@ -105,3 +105,21 @@ exports.guitar_create_post = [
   }
 ];
 
+
+//Handle guitar Delete GET
+exports.guitar_delete_get = function(req, res, next) {
+
+  Guitar.findById(req.params.id)
+  .exec(function (err, theguitar) {
+    if(err) { return next(err); }
+    if(theguitar == null) {
+      console.log("DID NOT FIND, DO SOMETHING...")
+    }
+    //successful
+    res.json(theguitar);
+  });
+}
+
+
+//Handle guitar Delete POST
+

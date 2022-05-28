@@ -75,6 +75,7 @@ const MyButton = styled.button`
   margin-top: 25px;
   width: 12rem;
   align-self: center;
+  background-color: rgb(0,0,255, 0.3);
 
   &:hover {
     box-shadow: 0 5px 15px rgb(0,0,0,0.15);

@@ -5,6 +5,7 @@ import { currencyFormatter } from "../utils";
 const GuitarDetail = (props) => {
 
   const dummyImage = props.dummyImage;
+  const navigate = props.navigate;
 
   const [guitar, setGuitar] = useState(null);
   const [imgError, setImgError] = React.useState(false);
@@ -27,11 +28,16 @@ const GuitarDetail = (props) => {
     getGuitar();
   }, []);
 
-
+  const returnHome = () => {
+    navigate('/');
+  }
 
   if (guitar) {
     return (
       <Container>
+        <svg onClick={returnHome} style={{width: '24px', height: '24px', justifySelf: 'start', cursor: 'pointer'}} viewBox="0 0 24 24">
+          <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+        </svg>
         <ImgContainer>
         {
           !imgError
@@ -61,8 +67,8 @@ const GuitarDetail = (props) => {
           </BottomLeft>
           <h3>{currencyFormatter.format(guitar.price)}</h3>
         </BottomRow>
-        <MyButton>Update</MyButton>
-        <MyButton>Delete</MyButton>
+        <MyButton >Update</MyButton>
+        <MyButton style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
       </Container>
     )
   }
@@ -82,7 +88,7 @@ const Container = styled.div`
   padding: 10px 0;
   background-color: white;
   border-radius: 1rem;
-  margin: 25px 75px;
+  margin: 25px 25px 85px 25px;
   text-align: center;
   padding: 25px;
 `
@@ -106,9 +112,9 @@ const MyButton = styled.button`
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
-  margin-top: 25px;
   width: 12rem;
   align-self: center;
+  background-color: rgb(0,0,255, 0.3);
 
   &:hover {
     box-shadow: 0 5px 15px rgb(0,0,0,0.15);

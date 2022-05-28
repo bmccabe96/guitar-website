@@ -100,12 +100,20 @@ const AddGuitar = (props) => {
     }   
   }
 
+  const returnHome = () => {
+    navigate('/');
+  }
+
   if (brandsAndTypes) {
 
     if (typeInputs)
     {
       return (
         <FormContainer>
+          <svg onClick={returnHome} style={{width: '24px', height: '24px', justifySelf: 'start', cursor: 'pointer', marginLeft: '25px', marginTop:'25px'}} viewBox="0 0 24 24">
+            <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+          </svg>
+          <h1 style={{textAlign: 'center'}}>Add Guitar</h1>
           <form method='POST' action='' style={formStyle} onSubmit={handleSubmit}>
             <div className="form-group form-text">
               <p>Enter guitar name:</p>
@@ -145,7 +153,7 @@ const AddGuitar = (props) => {
               <p>Enter a link the image:</p>
               <input type='text' id='image' name='image' value={inputs.image} onChange={handleInputChange}/>
             </div>
-            <button type='submit'>Submit</button>
+            <MyButton type='submit'>Submit</MyButton>
             <div>
               {
                 formErrors
@@ -179,7 +187,7 @@ const formStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'start',
-  padding: '2rem',
+  padding: '25px',
   gap: '2rem'
 }
 
@@ -198,6 +206,22 @@ const ErrorText = styled.p`
   font-weight: 400;
   font-size: 1.2rem;
   margin: 0;
+`
+
+const MyButton = styled.button`
+  color: black;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  width: 12rem;
+  align-self: center;
+  background-color: rgb(0,0,255, 0.3);
+
+  &:hover {
+    box-shadow: 0 5px 15px rgb(0,0,0,0.15);
+  }
 `
 
 export default AddGuitar;

@@ -37,7 +37,7 @@ function AllContent(props) {
       <CSSReset />
 
       <Navbar.Wrapper>
-        <Navbar.Logo>Logo</Navbar.Logo>
+        <Navbar.Logo>Guitar Inventory</Navbar.Logo>
 
         <HamburgerButton.Wrapper onClick={() => toggleDrawer(true)}>
           <HamburgerButton.Lines />
