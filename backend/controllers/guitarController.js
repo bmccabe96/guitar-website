@@ -132,3 +132,26 @@ exports.guitar_delete_post = function(req, res, next) {
     res.send('/');
   });
 }
+
+
+//Handle guitar update GET
+exports.guitar_update_get = function(req, res, next) {
+
+  //get guitar
+  Guitar.findById(req.params.id)
+  .populate('brand')
+  .populate('type')
+  .exec(function(err, theguitar) {
+    if(err) { return next(err); }
+    if(theguitar == null) {
+      console.log("DID NOT FIND, DO SOMETHING...")
+      var err = new Error('Guitar copy not found');
+      err.status=404;
+      return next(err);
+    }
+    res.json(theguitar);
+  })
+}
+
+
+//Handle guitar update POST

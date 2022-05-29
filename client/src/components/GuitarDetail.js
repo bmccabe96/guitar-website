@@ -68,7 +68,7 @@ const GuitarDetail = (props) => {
           </BottomLeft>
           <h3>{currencyFormatter.format(guitar.price)}</h3>
         </BottomRow>
-        <MyButton >Update</MyButton>
+        <MyButton onClick={() => navigate(`/guitar/${guitar._id}/update`)}>Update</MyButton>
         <MyButton onClick={() => navigate(`/guitar/${guitar._id}/delete`)} style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
       </Container>
     )

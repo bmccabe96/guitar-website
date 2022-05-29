@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Brands from './Brands';
 import Home from './Home';
 import Types from "./Types";
-import AddGuitar from './AddGuitar';
+import GuitarForm from './GuitarForm';
 import GuitarDetail from './GuitarDetail';
 import GuitarDelete from "./GuitarDelete";
 
@@ -73,8 +73,15 @@ function AllContent(props) {
             />}
         />
         <Route
+          path="/guitar/:id/update"
+          element={<GuitarForm
+            navigate={navigate}
+            dummyImage={dummyImage}
+            />}
+        />
+        <Route
           path="/create"
-          element={<AddGuitar 
+          element={<GuitarForm 
             navigate={navigate}
             />}
         />

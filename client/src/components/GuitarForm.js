@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Navigate } from "react-router";
+import React, { useState, useEffect, createRef } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
 
-const AddGuitar = (props) => {
+
+const GuitarForm = (props) => {
 
   const navigate = props.navigate;
 
@@ -15,28 +16,64 @@ const AddGuitar = (props) => {
     price: '',
     image: '',
   });
-  const [typeInputs, setTypeInputs] = useState('');
+  const [typeInputs, setTypeInputs] = useState();
   const [formErrors, setFormErrors] = useState([]);
 
+  const { id } = useParams();
+  const isUpdateMode = !!id;
+
   useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("/catalog/guitar/create");
-      const data = await res.json();
-      setBrandsAndTypes(data);
-    }
-    async function getTypesData() {
-      const res = await fetch("/catalog/types");
-      const data = await res.json();
-      const initialTypeState = [];
-      for (let i=0; i< data.length; i++) {
-        initialTypeState.push({ checked: false, name: data[i].name, _id: data[i]._id })
-      }
-      setTypeInputs(initialTypeState);
-    }
-    fetchData();
-    getTypesData();
+    initialize();
   }, []);
 
+  const initialize = async () => {
+    const types = await getTypesData();
+    await fetchData();
+    if (isUpdateMode) {
+      await initializeUpdateMode(types);
+    }
+  }
+
+  async function fetchData() {
+    const res = await fetch("/catalog/guitar/create");
+    const data = await res.json();
+    setBrandsAndTypes(data);
+  }
+
+  async function getTypesData() {
+    const res = await fetch("/catalog/types");
+    const data = await res.json();
+    const initialTypeState = [];
+    for (let i=0; i< data.length; i++) {
+      initialTypeState.push({ checked: false, name: data[i].name, _id: data[i]._id })
+    }
+    setTypeInputs(initialTypeState);
+    return initialTypeState;
+  }
+
+  const initializeUpdateMode = async (types) => {
+    async function populateGuitarInputs() {
+      const res = await fetch(`/catalog/guitar/${id}/update`);
+      const data = await res.json();
+      setInputs({
+        name: data.name,
+        description: data.description,
+        brand: data.brand._id,
+        price: data.price,
+        image: data.image
+      });
+      const dataGuitarTypeIDs = data.type.map(function (el) { return el._id});
+      const updatedTypeInputs = types.map((item) => {
+        if (dataGuitarTypeIDs.includes(item._id)) {
+          item.checked = !item.checked;
+        }
+        return item;
+      })
+      setTypeInputs(updatedTypeInputs)
+    }
+    populateGuitarInputs();
+  }
+  
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -178,7 +215,7 @@ const AddGuitar = (props) => {
   }
   else {
     return (
-      <h1>LOADING...</h1>
+      <h1 style={{marginTop: '20px', textAlign: 'center'}}>...</h1>
     )
   }
 }
@@ -224,4 +261,4 @@ const MyButton = styled.button`
   }
 `
 
-export default AddGuitar;
+export default GuitarForm;
