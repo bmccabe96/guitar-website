@@ -155,3 +155,37 @@ exports.guitar_update_get = function(req, res, next) {
 
 
 //Handle guitar update POST
+exports.guitar_update_post = [
+  
+  //validate and sanitize
+  body('name', 'name must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('description', 'description must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('brand', 'brand must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('type.*').escape(),
+  body('price', 'price must not be empty').trim().isLength({ min: 1 }).escape(),
+
+  //process request
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    if (errors) {
+      console.log(errors);
+    }
+    //create new guitar object
+    var guitar = new Guitar({
+      name: req.body.name,
+      description: req.body.description,
+      brand: req.body.brand,
+      type: req.body.type,
+      price: req.body.price,
+      image: req.body.image,
+      _id: req.params.id
+    });
+
+    Guitar.findByIdAndUpdate(req.params.id, guitar, {}, function(err, theguitar) {
+      if(err) { return next(err); }
+      res.send(theguitar);
+    })
+
+  }
+];

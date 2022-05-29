@@ -104,7 +104,7 @@ const GuitarForm = (props) => {
   //HANDLE SUBMIT
   //PROVIDES VALIDATION VIA STATE
   async function handleSubmit(e) {
-    if (!isUpdateMode) {
+    if (!isUpdateMode) { // HANDLE GET
       e.preventDefault();
       setFormErrors([]);
       const guitar = {
@@ -136,9 +136,38 @@ const GuitarForm = (props) => {
         return;
       }   
     }
-    else {
+    else { // HANDLE POST
       e.preventDefault();
-      console.log("NEED TO GET THE UPDATE OPTION");
+      setFormErrors([]);
+      const guitar = {
+        name: inputs.name,
+        description: inputs.description,
+        brand: inputs.brand,
+        type: typeInputs.map(item => item.checked ? item._id : null).filter(item => item),
+        price: parseFloat(inputs.price),
+        image: inputs.image,
+      };
+
+      let newErrors = [];
+      for (let key in guitar) {
+        if(!guitar[key] && key !== 'image') {
+          newErrors.push(`Must input valid ${key}`);
+        }
+      }
+      setFormErrors(newErrors);
+      if (newErrors.length === 0) {
+        await fetch(`/catalog/guitar/${id}/update`, {
+          method: 'POST',
+          headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
+          body: JSON.stringify(guitar),
+        })
+          //.then(res => console.log(res))
+          .then(res => res.json())
+          .then(res => navigate("/guitar/" + res._id))
+      }
+      else {
+        return;
+      }   
     }
     
   }

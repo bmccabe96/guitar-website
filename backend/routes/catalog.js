@@ -30,8 +30,8 @@ router.get('/guitar/:id', guitar_controller.guitar_detail);
 //Update guitar GET
 router.get('/guitar/:id/update', guitar_controller.guitar_update_get);
 
-
 //Update guitar POST
+router.post('/guitar/:id/update', guitar_controller.guitar_update_post);
 
 
 
