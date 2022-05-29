@@ -104,37 +104,43 @@ const GuitarForm = (props) => {
   //HANDLE SUBMIT
   //PROVIDES VALIDATION VIA STATE
   async function handleSubmit(e) {
-    e.preventDefault();
-    setFormErrors([]);
-    const guitar = {
-      name: inputs.name,
-      description: inputs.description,
-      brand: inputs.brand,
-      type: typeInputs.map(item => item.checked ? item._id : null).filter(item => item),
-      price: parseFloat(inputs.price),
-      image: inputs.image,
-    };
+    if (!isUpdateMode) {
+      e.preventDefault();
+      setFormErrors([]);
+      const guitar = {
+        name: inputs.name,
+        description: inputs.description,
+        brand: inputs.brand,
+        type: typeInputs.map(item => item.checked ? item._id : null).filter(item => item),
+        price: parseFloat(inputs.price),
+        image: inputs.image,
+      };
 
-    let newErrors = [];
-    for (let key in guitar) {
-      if(!guitar[key] && key !== 'image') {
-        newErrors.push(`Must input valid ${key}`);
+      let newErrors = [];
+      for (let key in guitar) {
+        if(!guitar[key] && key !== 'image') {
+          newErrors.push(`Must input valid ${key}`);
+        }
       }
-    }
-    setFormErrors(newErrors);
-    console.log(newErrors);
-    if (newErrors.length === 0) {
-      await fetch('/catalog/guitar/create', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
-        body: JSON.stringify(guitar),
-      })
-        //.then(res => console.log(res))
-        .then(res => navigate('/'))
+      setFormErrors(newErrors);
+      if (newErrors.length === 0) {
+        await fetch('/catalog/guitar/create', {
+          method: 'POST',
+          headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
+          body: JSON.stringify(guitar),
+        })
+          //.then(res => console.log(res))
+          .then(res => navigate('/'))
+      }
+      else {
+        return;
+      }   
     }
     else {
-      return;
-    }   
+      e.preventDefault();
+      console.log("NEED TO GET THE UPDATE OPTION");
+    }
+    
   }
 
   const returnHome = () => {
@@ -150,7 +156,7 @@ const GuitarForm = (props) => {
           <svg onClick={returnHome} style={{width: '24px', height: '24px', justifySelf: 'start', cursor: 'pointer', marginLeft: '25px', marginTop:'25px'}} viewBox="0 0 24 24">
             <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
           </svg>
-          <h1 style={{textAlign: 'center'}}>Add Guitar</h1>
+          <h1 style={{textAlign: 'center'}}>{isUpdateMode ? "Update Guitar" : "Add Guitar"}</h1>
           <form method='POST' action='' style={formStyle} onSubmit={handleSubmit}>
             <div className="form-group form-text">
               <p>Enter guitar name:</p>
@@ -184,7 +190,7 @@ const GuitarForm = (props) => {
             </div>
             <div className="form-group form-num">
               <p>How much does it cost?</p>
-              <input type='number' id='price' name='price' min='0' value={inputs.price} onChange={handleInputChange}/>
+              <input type='float' id='price' name='price' min='0' value={inputs.price} onChange={handleInputChange}/>
             </div>
             <div className="form-group form-text">
               <p>Enter a link the image:</p>
