@@ -23,7 +23,7 @@ const Home = (props) => {
             }
     )
       .then(res => res.json())
-      .then(res => setGuitarList(res));
+      .then(res => setGuitarList(res))
   }
 
   const navToAddGuitar = () => {
