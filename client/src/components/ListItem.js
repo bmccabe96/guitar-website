@@ -7,6 +7,7 @@ const ListItem = (props) => {
   const setSelectedBrand = props.setSelectedBrand;
   const navigate = props.navigate;
   const getBrandList = props.getBrandList;
+  const guitarList = props.guitarList;
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -14,6 +15,7 @@ const ListItem = (props) => {
     name: '',
     description: '',
   });
+  const [allowDelete, setAllowDelete] = useState(true);
 
   function seeGuitarsByBrand(e) {
     navigate("/");
@@ -56,6 +58,18 @@ const ListItem = (props) => {
     setIsEditMode(false);
   }
 
+  const handleFirstDeleteClick = () => {
+    setConfirmDelete(true);
+    let guitars = guitarList.filter(guitar => guitar.brand._id === brand._id);
+    if (guitars.length > 0) {
+      setAllowDelete(false);
+      console.log(guitars);
+    }
+    else {
+      setAllowDelete(true);
+    }
+  }
+
   async function handleDelete(e) {
     console.log(brand._id);
     await fetch(`/catalog/brand/delete`, {
@@ -78,15 +92,28 @@ const ListItem = (props) => {
           <MyButton onClick={enterEditMode}>Edit</MyButton>
           {
             confirmDelete ?
-            <span>
-              <MyButton onClick={handleDelete} style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
-              <MyButton onClick={() => setConfirmDelete(false)} style={{backgroundColor: 'white'}}>Cancel</MyButton>
-            </span>
+            
+              allowDelete ?
+                <span>
+                  <MyButton onClick={handleDelete} style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
+                  <MyButton onClick={() => setConfirmDelete(false)} style={{backgroundColor: 'white'}}>Cancel</MyButton>
+                </span>
+              :
+                <span>
+                  <MyButton style={{backgroundColor: '#eeeeee'}} disabled>Delete</MyButton>
+                  <MyButton onClick={() => setConfirmDelete(false)} style={{backgroundColor: 'white'}}>Cancel</MyButton>
+                </span>   
             :
-            <MyButton onClick={() => setConfirmDelete(true)} style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
+            <MyButton onClick={handleFirstDeleteClick} style={{backgroundColor: 'rgb(255,0,0,0.4)'}}>Delete</MyButton>
           }
-          
         </Actions>
+        {
+          confirmDelete && !allowDelete 
+          ?
+          <em className='cannot-delete-item'>Must delete associated guitars first</em>
+          :
+          null
+        }
       </ListItemContainer>
     )
   }

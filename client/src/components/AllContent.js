@@ -122,6 +122,7 @@ function AllContent(props) {
             navigate={navigate}
             setSelectedBrand={setSelectedBrand}
             getGuitarList={getGuitarList}
+            guitarList={guitarList}
             />}
         />
         <Route

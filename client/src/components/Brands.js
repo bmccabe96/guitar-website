@@ -6,6 +6,7 @@ const Brands = (props) => {
 
   const navigate = props.navigate;
   const setSelectedBrand = props.setSelectedBrand;
+  const guitarList = props.guitarList;
   const [brandList, setBrandList] = useState();
 
 
@@ -44,7 +45,12 @@ const Brands = (props) => {
         <MyButton onClick={navToAddBrand}>Add brand</MyButton>
         {
           brandList.map(brand => {
-            return <ListItem getBrandList={getBrandList} setSelectedBrand={setSelectedBrand} navigate={navigate} key={brand._id} brand={brand} />
+            return <ListItem 
+              getBrandList={getBrandList} 
+              setSelectedBrand={setSelectedBrand} 
+              navigate={navigate} key={brand._id} 
+              brand={brand}
+              guitarList={guitarList} />
           })
         }
       </Container>
