@@ -46,7 +46,14 @@ router.get('/types', type_controller.type_list);
 //Get request for all types
 router.get('/brands', brand_controller.brand_list);
 
+//Create brand POST
+router.post('/brand/create', brand_controller.brand_create_post);
 
+//Update brand POST
+router.post('/brand/update', brand_controller.brand_update_post);
+
+//Delete brand POST
+router.post('/brand/delete', brand_controller.brand_delete_post);
 
 
 

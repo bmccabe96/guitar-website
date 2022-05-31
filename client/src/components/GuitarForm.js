@@ -104,7 +104,7 @@ const GuitarForm = (props) => {
   //HANDLE SUBMIT
   //PROVIDES VALIDATION VIA STATE
   async function handleSubmit(e) {
-    if (!isUpdateMode) { // HANDLE GET
+    if (!isUpdateMode) { // HANDLE CREATE
       e.preventDefault();
       setFormErrors([]);
       const guitar = {
@@ -130,13 +130,15 @@ const GuitarForm = (props) => {
           body: JSON.stringify(guitar),
         })
           //.then(res => console.log(res))
-          .then(res => navigate('/'))
+          .then(res => {
+            navigate('/')
+          })
       }
       else {
         return;
       }   
     }
-    else { // HANDLE POST
+    else { // HANDLE UPDATE
       e.preventDefault();
       setFormErrors([]);
       const guitar = {
@@ -163,7 +165,9 @@ const GuitarForm = (props) => {
         })
           //.then(res => console.log(res))
           .then(res => res.json())
-          .then(res => navigate("/guitar/" + res._id))
+          .then(res => {
+            navigate("/guitar/" + res._id);
+          })
       }
       else {
         return;
@@ -197,7 +201,7 @@ const GuitarForm = (props) => {
             </div>
             <div className="form-group select">
               <p>Select brand:</p>
-              <select id='brand' type='select' name='brand' placeholder="Select brand" defaultValue={'Select brand'} onChange={handleBrandInputChange}>
+              <select id='brand' type='select' name='brand' placeholder="Select brand" value={inputs.brand} onChange={handleBrandInputChange}>
                 <option key="non-option" value="Select brand" disabled>Select brand</option>
                 {brandsAndTypes.brands.map(brand => {
                   return (

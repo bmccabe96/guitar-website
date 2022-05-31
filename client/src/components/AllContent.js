@@ -7,17 +7,37 @@ import Types from "./Types";
 import GuitarForm from './GuitarForm';
 import GuitarDetail from './GuitarDetail';
 import GuitarDelete from "./GuitarDelete";
+import BrandForm from "./BrandForm";
 
 
 function AllContent(props) {
   const [openDrawer, toggleDrawer] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState('all');
+  const [guitarList, setGuitarList] = useState(null);
+
   const drawerRef = useRef(null);
 
   const { clickedAll, clickedBrands, clickedTypes, navigate } = props; 
 
   const dummyImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Jx3nFfYJbtte3rifrRM2fN8zbrJvZUtYug&usqp=CAU";
 
+  //Load list 
+  useEffect(() => {
+    getGuitarList();
+  }, [])
 
+  const getGuitarList = () => {
+    fetch("/catalog/guitars",
+            {
+              headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              }
+            }
+    )
+      .then(res => res.json())
+      .then(res => setGuitarList(res))
+  }
 
   useEffect(() => {
     /* Close the drawer when the user clicks outside of it */
@@ -56,6 +76,11 @@ function AllContent(props) {
           element={<Home 
             navigate={navigate}
             dummyImage={dummyImage}
+            selectedBrand={selectedBrand}
+            setSelectedBrand={setSelectedBrand}
+            guitarList={guitarList}
+            setGuitarList={setGuitarList}
+            getGuitarList={getGuitarList}
             />}
         />
         <Route
@@ -86,9 +111,17 @@ function AllContent(props) {
             />}
         />
         <Route
+          path="/brand/create"
+          element={<BrandForm 
+            navigate={navigate}
+            />}
+        />
+        <Route
           path="/brands"
           element={<Brands 
             navigate={navigate}
+            setSelectedBrand={setSelectedBrand}
+            getGuitarList={getGuitarList}
             />}
         />
         <Route

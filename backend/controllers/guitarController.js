@@ -158,11 +158,11 @@ exports.guitar_update_get = function(req, res, next) {
 exports.guitar_update_post = [
   
   //validate and sanitize
-  body('name', 'name must not be empty').trim().isLength({ min: 1 }).escape(),
-  body('description', 'description must not be empty').trim().isLength({ min: 1 }).escape(),
-  body('brand', 'brand must not be empty').trim().isLength({ min: 1 }).escape(),
-  body('type.*').escape(),
-  body('price', 'price must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('name', 'name must not be empty').trim().isLength({ min: 1 }),
+  body('description', 'description must not be empty').trim().isLength({ min: 1 }),
+  body('brand', 'brand must not be empty').trim().isLength({ min: 1 }),
+  body('type.*'),
+  body('price', 'price must not be empty').trim().isLength({ min: 1 }),
 
   //process request
   (req, res, next) => {

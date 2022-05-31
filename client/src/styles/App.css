@@ -5,6 +5,10 @@
   flex-direction: column;
 }
 
+.brandFilter {
+  align-self: center;
+}
+
 .form-group * {
   padding: 5px 0;
 }

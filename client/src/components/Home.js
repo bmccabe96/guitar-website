@@ -1,20 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import styled from "styled-components";
 import GuitarItem from "./GuitarItem";
 
 const Home = (props) => {
 
-  const [guitarList, setGuitarList] = useState(null);
+  const selectedBrand = props.selectedBrand;
+  const setSelectedBrand = props.setSelectedBrand;
+  const guitarList = props.guitarList;
+  const getGuitarList = props.getGuitarList;
+
+  //const [guitarList, setGuitarList] = useState(null);
   const navigate = props.navigate;
   const dummyImage = props.dummyImage;
+  const [brandList, setBrandList] = useState(null);
+  const filteredList = useMemo(getFilteredList, [selectedBrand, guitarList]);
 
   //Load list 
   useEffect(() => {
     getGuitarList();
+    getBrandList();
   }, [])
-
-  const getGuitarList = () => {
-    fetch("/catalog/guitars",
+  
+  const getBrandList = () => {
+    fetch("/catalog/brands",
             {
               headers : { 
                 'Content-Type': 'application/json',
@@ -23,19 +31,48 @@ const Home = (props) => {
             }
     )
       .then(res => res.json())
-      .then(res => setGuitarList(res))
+      .then(res => setBrandList(res));
   }
 
   const navToAddGuitar = () => {
     navigate('/create');
   }
+
+  const handleBrandChange = (e) => {
+    const selectBox = document.getElementById("brandList");
+    const selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    if(selectedValue === 'all') {
+      setSelectedBrand('all');
+    }
+    else {
+      setSelectedBrand(selectedValue);
+    }
+  }
+
+  function getFilteredList() {
+    if(selectedBrand==='all') {
+      return guitarList;
+    }
+    return guitarList.filter(guitar => guitar.brand._id === selectedBrand)
+  }
   
-  if (guitarList) {
+  if (guitarList && brandList) {
     return (
       <div className="home">
         <MyButton onClick={navToAddGuitar}>Add Guitar</MyButton>
+        <div className="brandFilter">
+          <div>Filter by brand:</div>
+          <select name="brandList" id="brandList" onChange={handleBrandChange} value={selectedBrand}>
+            <option value="all">All</option>
+            {
+              brandList.map(brand => {
+                return <option key={brand._id} value={brand._id}>{brand.name}</option>
+              })
+            }
+          </select>
+        </div>
         <GuitarListContainer>
-          {guitarList.map( guitar => {
+          {filteredList.map( guitar => {
             return <GuitarItem
               guitar={guitar}
               key={guitar._id}
