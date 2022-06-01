@@ -3,11 +3,13 @@ import styled from "styled-components";
 
 const ListItem = (props) => {
 
-  const brand = props.brand;
-  const setSelectedBrand = props.setSelectedBrand;
+  const item = props.item;
+  const setSelectedItem = props.setSelectedItem;
   const navigate = props.navigate;
-  const getBrandList = props.getBrandList;
+  const getItemList = props.getItemList;
   const guitarList = props.guitarList;
+  const clickedTab = props.clickedTab;
+
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -17,9 +19,9 @@ const ListItem = (props) => {
   });
   const [allowDelete, setAllowDelete] = useState(true);
 
-  function seeGuitarsByBrand(e) {
+  function seeGuitarsByItem(e) {
     navigate("/");
-    setSelectedBrand(e.target.id);
+    setSelectedItem(e.target.id);
   }
 
   const enterEditMode = () => {
@@ -38,19 +40,20 @@ const ListItem = (props) => {
   };
 
   async function handleSubmit(e) {
-    const newBrand = {
-      name: inputs.name ? inputs.name : brand.name,
-      description: inputs.description ? inputs.description : brand.description,
-      id: brand._id,
+    const url = clickedTab === 'brands' ? '/catalog/brand/update' : '/catalog/type/update';
+    const newItem = {
+      name: inputs.name ? inputs.name : item.name,
+      description: inputs.description ? inputs.description : item.description,
+      id: item._id,
     };
-    await fetch(`/catalog/brand/update`, {
+    await fetch(url, {
       method: 'POST',
       headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
-      body: JSON.stringify(newBrand),
+      body: JSON.stringify(newItem),
     })
       //.then(res => console.log(res))
-      .then(res => navigate('/brands'))
-    getBrandList();
+      .then(res => navigate(clickedTab === 'brands' ? '/brands' : '/types'))
+    getItemList();
     setIsEditMode(false);
   }
 
@@ -60,10 +63,15 @@ const ListItem = (props) => {
 
   const handleFirstDeleteClick = () => {
     setConfirmDelete(true);
-    let guitars = guitarList.filter(guitar => guitar.brand._id === brand._id);
+    let guitars; 
+    if (clickedTab==='brands') {
+      guitars = guitarList.filter(guitar => guitar.brand._id === item._id);
+    }
+    else if (clickedTab==='types'){
+      guitars = guitarList.filter(guitar => guitar.type._id === item._id);
+    }
     if (guitars.length > 0) {
       setAllowDelete(false);
-      console.log(guitars);
     }
     else {
       setAllowDelete(true);
@@ -71,24 +79,24 @@ const ListItem = (props) => {
   }
 
   async function handleDelete(e) {
-    console.log(brand._id);
-    await fetch(`/catalog/brand/delete`, {
+    const url = clickedTab === 'brands' ? '/catalog/brand/delete' : '/catalog/type/delete';
+    await fetch(url, {
       method: 'POST',
       headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
-      body: JSON.stringify({ _id: brand._id }),
+      body: JSON.stringify({ _id: item._id }),
     })
       //.then(res => console.log(res))
-      .then(res => navigate('/brands'))
-    getBrandList();
+      .then(res => navigate(clickedTab === 'brands' ? '/brands' : '/types'))
+    getItemList();
   }
 
   if (!isEditMode) {
     return (
       <ListItemContainer>
-        <Category>{brand.name}</Category>
-        <Description>{brand.description}</Description>
+        <Category>{item.name}</Category>
+        <Description>{item.description}</Description>
         <Actions>
-          <MyButton id={brand._id} onClick={seeGuitarsByBrand}>See guitars</MyButton>
+          <MyButton id={item._id} onClick={seeGuitarsByItem}>See guitars</MyButton>
           <MyButton onClick={enterEditMode}>Edit</MyButton>
           {
             confirmDelete ?
@@ -120,10 +128,10 @@ const ListItem = (props) => {
   else {
     return (
       <ListItemContainer>
-        <CategoryUpdate onChange={handleInputChange} type="text" defaultValue={brand.name} />
-        <DescriptionUpdate onChange={handleInputChange} defaultValue={brand.description}></DescriptionUpdate>
+        <CategoryUpdate onChange={handleInputChange} type="text" defaultValue={item.name} />
+        <DescriptionUpdate onChange={handleInputChange} defaultValue={item.description}></DescriptionUpdate>
         <Actions>
-          <MyButton id={brand._id} onClick={seeGuitarsByBrand} disabled style={{backgroundColor: 'grey'}}>See guitars</MyButton>
+          <MyButton id={item._id} onClick={seeGuitarsByItem} disabled style={{backgroundColor: 'grey'}}>See guitars</MyButton>
           <MyButton style={{backgroundColor: 'rgb(0,0,255,0.4)'}} onClick={handleSubmit}>Confirm</MyButton>
           <MyButton style={{backgroundColor: 'rgb(255,0,0,0.4)'}} onClick={cancelSubmit}>Cancel</MyButton>
           <MyButton disabled style={{backgroundColor: 'grey'}}>Delete</MyButton>

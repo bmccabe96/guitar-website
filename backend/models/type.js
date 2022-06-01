@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var TypeSchema = new Schema(
   {
     name: {type: String, required: true, maxlength: 100},
+    description: {type: String, required: true, maxlength: 750},
   }
 );
 

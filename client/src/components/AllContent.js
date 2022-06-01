@@ -13,6 +13,7 @@ import BrandForm from "./BrandForm";
 function AllContent(props) {
   const [openDrawer, toggleDrawer] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState('all');
+  const [selectedType, setSelectedType] = useState([]);
   const [guitarList, setGuitarList] = useState(null);
   const [clickedTab, setClickedTab] = useState('all');
 
@@ -142,12 +143,17 @@ function AllContent(props) {
             setSelectedBrand={setSelectedBrand}
             getGuitarList={getGuitarList}
             guitarList={guitarList}
+            clickedTab={clickedTab}
             />}
         />
         <Route
           path="/types"
           element={<Types 
             navigate={navigate}
+            setSelectedType={setSelectedType}
+            getGuitarList={getGuitarList}
+            guitarList={guitarList}
+            clickedTab={clickedTab}
             />}
         />
       </Routes>

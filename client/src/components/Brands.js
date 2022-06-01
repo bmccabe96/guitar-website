@@ -7,6 +7,8 @@ const Brands = (props) => {
   const navigate = props.navigate;
   const setSelectedBrand = props.setSelectedBrand;
   const guitarList = props.guitarList;
+  const clickedTab = props.clickedTab;
+
   const [brandList, setBrandList] = useState();
 
 
@@ -46,11 +48,12 @@ const Brands = (props) => {
         {
           brandList.map(brand => {
             return <ListItem 
-              getBrandList={getBrandList} 
-              setSelectedBrand={setSelectedBrand} 
+              getItemList={getBrandList} 
+              setSelectedItem={setSelectedBrand} 
               navigate={navigate} key={brand._id} 
-              brand={brand}
-              guitarList={guitarList} />
+              item={brand}
+              guitarList={guitarList}
+              clickedTab={clickedTab} />
           })
         }
       </Container>

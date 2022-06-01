@@ -40,6 +40,15 @@ router.post('/guitar/:id/update', guitar_controller.guitar_update_post);
 //Get request for all types
 router.get('/types', type_controller.type_list);
 
+//Create type POST
+router.post('/type/create', type_controller.type_create_post);
+
+//Update type POST
+router.post('/type/update', type_controller.type_update_post);
+
+//Delete type POST
+router.post('/type/delete', type_controller.type_delete_post);
+
 
 /// BRAND ROUTES ///
 
