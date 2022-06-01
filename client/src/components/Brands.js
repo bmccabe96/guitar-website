@@ -6,6 +6,7 @@ const Brands = (props) => {
 
   const navigate = props.navigate;
   const setSelectedBrand = props.setSelectedBrand;
+  const resetType = props.resetType;
   const guitarList = props.guitarList;
   const clickedTab = props.clickedTab;
 
@@ -50,7 +51,9 @@ const Brands = (props) => {
             return <ListItem 
               getItemList={getBrandList} 
               setSelectedItem={setSelectedBrand} 
-              navigate={navigate} key={brand._id} 
+              resetItem={resetType}
+              navigate={navigate} 
+              key={brand._id} 
               item={brand}
               guitarList={guitarList}
               clickedTab={clickedTab} />

@@ -5,6 +5,7 @@ const ListItem = (props) => {
 
   const item = props.item;
   const setSelectedItem = props.setSelectedItem;
+  const resetItem = props.resetItem;
   const navigate = props.navigate;
   const getItemList = props.getItemList;
   const guitarList = props.guitarList;
@@ -22,6 +23,7 @@ const ListItem = (props) => {
   function seeGuitarsByItem(e) {
     navigate("/");
     setSelectedItem(e.target.id);
+    resetItem('all');
   }
 
   const enterEditMode = () => {
@@ -61,6 +63,10 @@ const ListItem = (props) => {
     setIsEditMode(false);
   }
 
+  function hasItemWithKeyAndValue(arr, key, value) {
+    return arr.some(item => item[key] === value);
+  }
+
   const handleFirstDeleteClick = () => {
     setConfirmDelete(true);
     let guitars; 
@@ -68,7 +74,7 @@ const ListItem = (props) => {
       guitars = guitarList.filter(guitar => guitar.brand._id === item._id);
     }
     else if (clickedTab==='types'){
-      guitars = guitarList.filter(guitar => guitar.type._id === item._id);
+      guitars = guitarList.filter(guitar => hasItemWithKeyAndValue(guitar.type, '_id', item._id));
     }
     if (guitars.length > 0) {
       setAllowDelete(false);

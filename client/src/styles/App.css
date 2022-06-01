@@ -5,7 +5,8 @@
   flex-direction: column;
 }
 
-.brandFilter {
+.brand-filter,
+.type-filter {
   align-self: center;
 }
 
