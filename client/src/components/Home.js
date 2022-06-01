@@ -83,19 +83,15 @@ const Home = (props) => {
 
   function getFilteredList() {
     if(selectedBrand === 'all' && selectedType === 'all') {
-      console.log(1)
       return guitarList;
     }
     else if (selectedBrand === 'all' && selectedType !== 'all') {
-      console.log(2)
       return guitarList.filter(guitar => hasItemWithKeyAndValue(guitar.type, '_id', selectedType))
     }
     else if (selectedBrand !== 'all' && selectedType === 'all') {
-      console.log(3)
       return guitarList.filter(guitar => guitar.brand._id === selectedBrand)
     }
     else {
-      console.log(4)
       return guitarList.filter(guitar => {
         if (guitar.brand._id === selectedBrand && hasItemWithKeyAndValue(guitar.type, '_id', selectedType)) {
           return true;

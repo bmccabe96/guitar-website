@@ -2,13 +2,13 @@ import React, { useState, useEffect, createRef } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
-const BrandForm = (props) => {
+const ItemForm = (props) => {
 
   const navigate = props.navigate;
+  const clickedTab = props.clickedTab;
   const { id } = useParams();
   const isUpdateMode = !!id;
 
-  const [currentBrand, setCurrentBrand] = useState(null);
   const [inputs, setInputs] = useState({
     name: '',
     description: '',
@@ -18,6 +18,10 @@ const BrandForm = (props) => {
 
   const returnToBrands = () => {
     navigate('/brands');
+  }
+
+  const returnToItems = () => {
+    navigate('/items');
   }
 
   const handleInputChange = (e) => {
@@ -31,69 +35,64 @@ const BrandForm = (props) => {
   async function handleSubmit (e) {
     e.preventDefault();
     setFormErrors([]);
-    if (!isUpdateMode) {
-      const brand = {
-        name: inputs.name,
-        description: inputs.description,
-      };
-      let newErrors = [];
-      for (let key in brand) {
-        if(!brand[key] && key !== 'image') {
-          newErrors.push(`Must input valid ${key}`);
-        }
+    const url = clickedTab === 'brands' ? '/catalog/brand/create' : '/catalog/type/create';
+    const item = {
+      name: inputs.name,
+      description: inputs.description,
+    };
+    let newErrors = [];
+    for (let key in item) {
+      if(!item[key] && key !== 'image') {
+        newErrors.push(`Must input valid ${key}`);
       }
-      setFormErrors(newErrors);
-      if (newErrors.length === 0) {
-        await fetch('/catalog/brand/create', {
-          method: 'POST',
-          headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
-          body: JSON.stringify(brand),
-        })
-          //.then(res => console.log(res))
-          .then(res => navigate('/brands'))
-      }
-      else {
-        return;
-      }   
+    }
+    setFormErrors(newErrors);
+    if (newErrors.length === 0) {
+      await fetch(url, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json", 'Accept': 'application/json' },
+        body: JSON.stringify(item),
+      })
+        //.then(res => console.log(res))
+        .then(res => navigate(clickedTab === 'brands' ? '/brands' : '/types'))
     }
     else {
       return;
-    }
+    }   
   }
 
-  if (!isUpdateMode) {
+
     return (
       <FormContainer>
         <svg onClick={returnToBrands} style={{width: '24px', height: '24px', justifySelf: 'start', cursor: 'pointer', marginLeft: '25px', marginTop:'25px'}} viewBox="0 0 24 24">
             <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
           </svg>
-          <h1 style={{textAlign: 'center'}}>{isUpdateMode ? "Update Brand" : "Add Brand"}</h1>
+          <h1 style={{textAlign: 'center'}}>{clickedTab === 'brands' ? 'Add Brand' : 'Add Type'}</h1>
           <form method='POST' action='' style={formStyle} onSubmit={handleSubmit}>
           <div className="form-group form-text">
-              <p>Enter brand name:</p>
+              <p>{clickedTab === 'brands' ? 'Enter brand name:' : 'Enter type name:'}</p>
               <input type='text'  id='name' name='name' value={inputs.name} onChange={handleInputChange}/>
             </div>
             <div className="form-group form-textbox">
-              <p>Describe the brand:</p>
+              <p>{clickedTab === 'brands' ? 'Describe the brand:' : 'Describe the type:'}</p>
               <textarea id='description' name='description' value={inputs.description} onChange={handleInputChange} />
             </div>
             <MyButton type='submit'>Submit</MyButton>
+            <div>
+              {
+                formErrors
+                ?
+                formErrors.map((error, index) => {
+                  return <ErrorText key={index}>{error}</ErrorText>
+                })
+                :
+                null
+              }
+            </div>
           </form>
       </FormContainer>
     )
-  }
-  else {
-    if (currentBrand) {
-      return (
-        <p>Blah blah</p>
-      )
-    }
-    else {
-      return (
-        <h1 style={{marginTop: '20px', textAlign: 'center'}}>...</h1>
-      )
-    }
-  }
+  
 }
 
 
@@ -104,6 +103,13 @@ const formStyle = {
   padding: '25px',
   gap: '2rem'
 }
+
+const ErrorText = styled.p`
+  color: red;
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin: 0;
+`
 
 const FormContainer = styled.div`
   background-color: white;
@@ -132,4 +138,4 @@ const MyButton = styled.button`
   }
 `
 
-export default BrandForm;
+export default ItemForm;

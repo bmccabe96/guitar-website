@@ -7,7 +7,7 @@ import Types from "./Types";
 import GuitarForm from './GuitarForm';
 import GuitarDetail from './GuitarDetail';
 import GuitarDelete from "./GuitarDelete";
-import BrandForm from "./BrandForm";
+import ItemForm from "./ItemForm";
 
 
 function AllContent(props) {
@@ -134,8 +134,9 @@ function AllContent(props) {
         />
         <Route
           path="/brand/create"
-          element={<BrandForm 
+          element={<ItemForm 
             navigate={navigate}
+            clickedTab={clickedTab}
             />}
         />
         <Route
@@ -157,6 +158,13 @@ function AllContent(props) {
             setSelectedType={setSelectedType}
             getGuitarList={getGuitarList}
             guitarList={guitarList}
+            clickedTab={clickedTab}
+            />}
+        />
+        <Route
+          path="/type/create"
+          element={<ItemForm 
+            navigate={navigate}
             clickedTab={clickedTab}
             />}
         />
