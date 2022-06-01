@@ -14,6 +14,7 @@ function AllContent(props) {
   const [openDrawer, toggleDrawer] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [guitarList, setGuitarList] = useState(null);
+  const [clickedTab, setClickedTab] = useState('all');
 
   const drawerRef = useRef(null);
 
@@ -23,8 +24,20 @@ function AllContent(props) {
 
   //Load list 
   useEffect(() => {
-    getGuitarList();
+    getGuitarList(); 
   }, [])
+
+  useEffect(() => {
+    if (window.location.href.endsWith('/')) {
+      setClickedTab('all');
+    }
+    else if(window.location.href.endsWith('/brands')) {
+      setClickedTab('brands');
+    }
+    else if(window.location.href.endsWith('/types')) {
+      setClickedTab('types');
+    }
+  });
 
   const getGuitarList = () => {
     fetch("/catalog/guitars",
@@ -65,9 +78,15 @@ function AllContent(props) {
         </HamburgerButton.Wrapper>
 
         <Navbar.Items ref={drawerRef} openDrawer={openDrawer}>
-          <Navbar.Item onClick={clickedAll}>All</Navbar.Item>
-          <Navbar.Item onClick={clickedBrands}>Brands</Navbar.Item>
-          <Navbar.Item onClick={clickedTypes}>Types</Navbar.Item>
+          <Navbar.Item 
+            style={clickedTab==='all' ? {textDecoration: 'underline', fontWeight: 'bold'} : null} 
+            onClick={clickedAll}>All</Navbar.Item>
+          <Navbar.Item 
+            style={clickedTab==='brands' ? {textDecoration: 'underline', fontWeight: 'bold'} : null} 
+            onClick={clickedBrands}>Brands</Navbar.Item>
+          <Navbar.Item 
+            style={clickedTab==='types' ? {textDecoration: 'underline', fontWeight: 'bold'} : null} 
+            onClick={clickedTypes}>Types</Navbar.Item>
         </Navbar.Items>
       </Navbar.Wrapper>
       <Routes>
