@@ -234,6 +234,10 @@ const ListItemContainer = styled.div`
   justify-items: start;
   align-items: center;
   margin-top: 15px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;
+  padding: 10px;
+  border-radius: 5px;
 
   @media only screen and (max-width: 40em) {
     display: flex;

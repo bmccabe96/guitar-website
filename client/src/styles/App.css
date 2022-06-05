@@ -3,11 +3,16 @@
 .home {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 .brand-filter,
 .type-filter {
   align-self: center;
+}
+
+select {
+  width: 12rem;
 }
 
 .form-group * {
