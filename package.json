@@ -1,0 +1,33 @@
+{
+  "name": "guitar-website",
+  "version": "1.0.0",
+  "engines": {
+    "node": "17.4.0"
+  },
+  "description": "Website to manage crud features for hypothetical guitar inventory.",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "install-server": "cd backend && npm install",
+    "heroku-postbuild": "npm run install-client && npm run install-server && npm run build",
+    "server": "cd backend && node ./bin/www",
+    "client": "cd client && npm start",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "devstart": "concurrently \"cd backend && npm run start\" \"cd client && npm start\"",
+    "serverstart": "concurrently \"cd backend && npm run serverstart\" \"cd client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmccabe96/guitar-website.git"
+  },
+  "author": "Brian McCabe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bmccabe96/guitar-website/issues"
+  },
+  "homepage": "https://github.com/bmccabe96/guitar-website#readme",
+  "dependencies": {
+    "concurrently": "^7.2.1"
+  }
+}
