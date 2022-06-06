@@ -11,9 +11,9 @@
     "install-client": "cd client && npm install",
     "install-server": "cd backend && npm install",
     "heroku-postbuild": "npm run install-client && npm run install-server && npm run build",
-    "server": "cd backend && node ./bin/www",
+    "server": "cd backend && nodemon ./bin/www",
     "client": "cd client && npm start",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
     "devstart": "concurrently \"cd backend && npm run start\" \"cd client && npm start\"",
     "serverstart": "concurrently \"cd backend && npm run serverstart\" \"cd client && npm start\""
   },
